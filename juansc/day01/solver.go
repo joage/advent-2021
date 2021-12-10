@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-type Day1 struct {}
+type Solution struct {}
 
 func stringsToInts(lines []string) ([]int, error) {
 	var err error
@@ -19,7 +19,7 @@ func stringsToInts(lines []string) ([]int, error) {
 	return input, nil
 }
 
-func (d Day1) Part1(lines []string) (string, error) {
+func (s Solution) Part1(lines []string) (string, error) {
 	input, err := stringsToInts(lines)
 	if err != nil {
 		return "", err
@@ -34,7 +34,7 @@ func (d Day1) Part1(lines []string) (string, error) {
 	return strconv.Itoa(count), nil
 }
 
-func (d Day1) Part2(lines []string) (string, error) {
+func (s Solution) Part2(lines []string) (string, error) {
 	input, err := stringsToInts(lines)
 	if err != nil {
 		return "", err
