@@ -72,7 +72,7 @@ func main() {
 			&cli.StringFlag{
 				Name:     solverArg,
 				Aliases:  []string{"s"},
-				Usage:    "Indicates the person whose solution you want to run. By default it will run the name in the .env file for solver",
+				Usage:    "Indicates the person whose solution you want to run. By default it will run the name in the .config file for solver",
 				Required: false,
 				FilePath: "./.config",
 			},
