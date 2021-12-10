@@ -37,8 +37,7 @@ func (b *binaryTracker) gamma() int {
 			numLiteral += "0"
 		}
 	}
-	val, _ := strconv.ParseInt(numLiteral, 2, 64)
-	return int(val)
+	return parseBinaryString(numLiteral)
 }
 
 func (b *binaryTracker) epsilon() int {
@@ -51,8 +50,13 @@ func (b *binaryTracker) epsilon() int {
 			numLiteral += "1"
 		}
 	}
-	val, _ := strconv.ParseInt(numLiteral, 2, 64)
+	return parseBinaryString(numLiteral)
+}
+
+func parseBinaryString(bin string) int {
+	val, _ := strconv.ParseInt(bin, 2, 64)
 	return int(val)
+
 }
 
 func (s Solution) Part1(lines []string) (string, error) {
@@ -63,15 +67,14 @@ func (s Solution) Part1(lines []string) (string, error) {
 	for i := 1; i < len(lines); i ++ {
 		tracker.update(lines[i])
 	}
-	power := tracker.gamma() * tracker.epsilon()
-	return strconv.Itoa(power), nil
+	return strconv.Itoa(tracker.gamma() * tracker.epsilon()), nil
 }
 
 func (s Solution) Part2(lines []string) (string, error) {
 	tree := newbinaryTree(lines)
 	currentNode := tree.head
 	stringValue := ""
-	for currentNode.oneChild != nil || currentNode.zeroChild != nil {
+	for currentNode.HasChildren() {
 		var newStr string
 		newStr, currentNode = currentNode.MostCommonChild()
 		stringValue += newStr
@@ -79,11 +82,11 @@ func (s Solution) Part2(lines []string) (string, error) {
 			break
 		}
 	}
-	oxygenRating, _ := strconv.ParseInt(stringValue, 2, 64)
+	oxygenRating := parseBinaryString(stringValue)
 
 	currentNode = tree.head
 	stringValue = ""
-	for currentNode.oneChild != nil || currentNode.zeroChild != nil {
+	for currentNode.HasChildren() {
 		var newStr string
 		newStr, currentNode = currentNode.LeastCommonChild()
 		stringValue += newStr
@@ -91,7 +94,7 @@ func (s Solution) Part2(lines []string) (string, error) {
 			break
 		}
 	}
-	co2Rating, _ := strconv.ParseInt(stringValue, 2, 64)
+	co2Rating := parseBinaryString(stringValue)
 
-	return strconv.Itoa(int(oxygenRating * co2Rating)), nil
+	return strconv.Itoa(oxygenRating * co2Rating), nil
 }

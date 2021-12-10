@@ -44,6 +44,10 @@ func newbinaryTree(lines []string) binaryTree {
 	return tree
 }
 
+func (b *binaryNode) HasChildren() bool {
+	return b.zeroChild != nil || b.oneChild != nil
+}
+
 func (b *binaryNode) MostCommonChild() (string, *binaryNode) {
 	if b.zeroChild == nil && b.oneChild == nil {
 		return "", nil
