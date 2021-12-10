@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"advent2021/juansc"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 
@@ -26,6 +27,8 @@ func run(c *cli.Context) error {
 	switch implementer {
 	case "joage":
 		solvers = &joage.Solvers{}
+	case "juansc":
+		solvers = &juansc.Solvers{}
 	default:
 		return fmt.Errorf("the implementer does not %s exists", implementer)
 	}
