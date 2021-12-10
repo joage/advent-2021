@@ -11,6 +11,7 @@ import (
 	"advent2021/jpmunz/day02"
 	"advent2021/jpmunz/day03"
 	"advent2021/jpmunz/day04"
+	"advent2021/jpmunz/day05"
 	"advent2021/lib"
 )
 
@@ -18,7 +19,6 @@ type Solvers struct{}
 
 func (s *Solvers) GetSolver(day int) (lib.Solutions, error) {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
 	switch day {
 	case 1:
@@ -29,6 +29,8 @@ func (s *Solvers) GetSolver(day int) (lib.Solutions, error) {
 		return &day03.Solution{}, nil
 	case 4:
 		return &day04.Solution{}, nil
+	case 5:
+		return &day05.Solution{}, nil
 	default:
 		return nil, fmt.Errorf("no solver exists for the given day")
 	}

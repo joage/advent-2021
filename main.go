@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"advent2021/juansc"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 
@@ -16,13 +17,23 @@ import (
 )
 
 const (
-	dayArg    = "day"
-	solverArg = "solver"
+	dayArg      = "day"
+	solverArg   = "solver"
+	inputDirArg = "input-dir"
+	verboseArg  = "verbose"
 )
 
 func run(c *cli.Context) error {
 	day := c.Int(dayArg)
 	implementer := strings.TrimSpace(c.String(solverArg))
+	inputDir := c.String(inputDirArg)
+	verbose := c.Bool(verboseArg)
+
+	if verbose {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	} else {
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	}
 
 	var solvers lib.DaySolver
 	switch implementer {
@@ -42,7 +53,7 @@ func run(c *cli.Context) error {
 		return err
 	}
 
-	lines, err := lib.ReadLines(fmt.Sprintf("./%s/inputs/day%d.txt", implementer, day))
+	lines, err := lib.ReadLines(fmt.Sprintf("./%s/%s/day%d.txt", implementer, inputDir, day))
 	if err != nil {
 		panic("could not read file")
 	}
@@ -78,6 +89,20 @@ func main() {
 				Usage:    "Indicates the person whose solution you want to run. By default it will run the name in the .config file for solver",
 				Required: false,
 				FilePath: "./.config",
+			},
+			&cli.StringFlag{
+				Name:     inputDirArg,
+				Aliases:  []string{"i"},
+				Usage:    "Directory to look for puzzle input files",
+				Required: false,
+				Value:    "inputs",
+			},
+			&cli.BoolFlag{
+				Name:     verboseArg,
+				Aliases:  []string{"v"},
+				Usage:    "Increase verbosity of log output",
+				Required: false,
+				Value:    false,
 			},
 		},
 		Action: run,
