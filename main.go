@@ -30,7 +30,7 @@ func run(c *cli.Context) error {
 	case "juansc":
 		solvers = &juansc.Solvers{}
 	default:
-		return fmt.Errorf("the implementer does not %s exists", implementer)
+		return fmt.Errorf("the implementer %s does not exists", implementer)
 	}
 
 	solution, err := solvers.GetSolver(day)
