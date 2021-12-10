@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-func ReadLines(file_name string) ([]string, error) {
-	file, err := os.Open("depths.in")
+func ReadLines(fileName string) ([]string, error) {
+	file, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
 	}

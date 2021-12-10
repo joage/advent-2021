@@ -40,8 +40,8 @@ func TestDay1Part1(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			solver := Day1Part1{}
-			actual, err := solver.Solve(test.input)
+			solver := Day1{}
+			actual, err := solver.Part1(test.input)
 			if err != nil {
 				t.Errorf("encountered error creating solution: %v", err)
 			}
