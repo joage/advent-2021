@@ -11,6 +11,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"advent2021/joage"
+	"advent2021/jpmunz"
 	"advent2021/lib"
 )
 
@@ -29,6 +30,8 @@ func run(c *cli.Context) error {
 		solvers = &joage.Solvers{}
 	case "juansc":
 		solvers = &juansc.Solvers{}
+	case "jpmunz":
+		solvers = &jpmunz.Solvers{}
 	default:
 		return fmt.Errorf("the implementer %s does not exists", implementer)
 	}
@@ -49,12 +52,12 @@ func run(c *cli.Context) error {
 	if err != nil {
 		panic(fmt.Errorf("encountered error running part1: %w", err))
 	}
-	fmt.Println("solution for day 1:", solution1)
+	fmt.Println("solution for part 1:", solution1)
 	solution2, err := solution.Part2(lines)
 	if err != nil {
 		panic(fmt.Errorf("encountered error running part2: %w", err))
 	}
-	fmt.Println("solution for day 2:", solution2)
+	fmt.Println("solution for part 2:", solution2)
 	fmt.Println(fmt.Sprintf("Total execution time: %v", time.Since(start)))
 	return nil
 
