@@ -11,6 +11,11 @@ const (
 	boardDim = 5
 )
 
+// This solution assumes that all boards eventually win if we read out all the numbers provided
+// for the puzzle. If no board wins or there is a single board that does not win then the solution
+// fails.
+
+
 type Solution struct{}
 
 type point struct {
