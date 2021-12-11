@@ -76,22 +76,6 @@ func computeOverlap(input []string, ignoreDiagonals bool) (string, error) {
 	return strconv.Itoa(highOverlap), nil
 }
 
-func minInt(a, b int) int {
-	if a <= b {
-		return a
-	} else {
-		return b
-	}
-}
-
-func maxInt(a, b int) int {
-	if a >= b {
-		return a
-	} else {
-		return b
-	}
-}
-
 func (p point) str() string {
 	return fmt.Sprintf("%v,%v", p.x, p.y)
 }
@@ -105,13 +89,6 @@ func (l line) points() []point {
 
 	x := l.start.x
 	y := l.start.y
-
-	/*
-		x1 := minInt(l.start.x, l.end.x)
-		x2 := maxInt(l.start.x, l.end.x)
-		y1 := minInt(l.start.y, l.end.y)
-		y2 := maxInt(l.start.y, l.end.y)
-	*/
 
 	for {
 		points = append(points, point{x: x, y: y})
