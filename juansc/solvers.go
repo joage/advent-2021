@@ -7,6 +7,8 @@ import (
 	"advent2021/juansc/day02"
 	"advent2021/juansc/day03"
 	"advent2021/juansc/day04"
+	"advent2021/juansc/day05"
+	"advent2021/juansc/day06"
 	"advent2021/lib"
 )
 
@@ -22,6 +24,10 @@ func (s *Solvers) GetSolver(day int) (lib.Solutions, error) {
 		return &day03.Solution{}, nil
 	case 4:
 		return &day04.Solution{}, nil
+	case 5:
+		return &day05.Solution{}, nil
+	case 6:
+		return &day06.Solution{}, nil
 	default:
 		return nil, fmt.Errorf("no solver exists for the given day")
 	}
