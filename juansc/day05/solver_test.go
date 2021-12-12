@@ -1,17 +1,17 @@
-package day04
+package day05
 
 import (
-	"testing"
+"testing"
 
-	"advent2021/lib"
+"advent2021/lib"
 )
 
 func TestPart1(t *testing.T) {
-	exampleLines, err := lib.ReadLines("../inputs/day4_example.txt")
+	exampleLines, err := lib.ReadLines("../inputs/day5_example.txt")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
-	lines, err := lib.ReadLines("../inputs/day4.txt")
+	lines, err := lib.ReadLines("../inputs/day5.txt")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
@@ -23,12 +23,12 @@ func TestPart1(t *testing.T) {
 		{
 			name: "example",
 			input: exampleLines,
-			expected: "4512",
+			expected: "5",
 		},
 		{
 			name:     "actual test",
 			input:    lines,
-			expected: "unknown",
+			expected: "5698",
 		},
 	}
 	for _, test := range tests {
@@ -46,11 +46,11 @@ func TestPart1(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	exampleLines, err := lib.ReadLines("../inputs/day4_example.txt")
+	exampleLines, err := lib.ReadLines("../inputs/day5_example.txt")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
-	lines, err := lib.ReadLines("../inputs/day4.txt")
+	lines, err := lib.ReadLines("../inputs/day5.txt")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
@@ -62,12 +62,12 @@ func TestPart2(t *testing.T) {
 		{
 			name: "example",
 			input: exampleLines,
-			expected: "1924",
+			expected: "12",
 		},
 		{
 			name:     "actual test",
 			input:    lines,
-			expected: "13158",
+			expected: "15463",
 		},
 	}
 	for _, test := range tests {
