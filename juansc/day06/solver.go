@@ -41,8 +41,6 @@ const (
 // We will use the following approach:
 // We will only count the number of fish within a given cohort. A cohort is a group of fish
 // that will have children at the same time.
-
-
 type cohorts struct {
 	// The number of days
 	numTicks int
