@@ -24,12 +24,12 @@ func TestPart1(t *testing.T) {
 		{
 			name:     "example",
 			input:    exampleLines,
-			expected: "38",
+			expected: "26",
 		},
 		{
 			name:     "actual test",
 			input:    lines,
-			expected: "344835",
+			expected: "519",
 		},
 	}
 	for _, test := range tests {
@@ -89,13 +89,13 @@ func TestNewDecoder(t *testing.T) {
 	g := NewGomegaWithT(t)
 	decoder, err := newDecoder("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab")
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(decoder.encode(segmentA)).To(Equal(segmentD))
-	g.Expect(decoder.encode(segmentB)).To(Equal(segmentE))
-	g.Expect(decoder.encode(segmentC)).To(Equal(segmentA))
-	g.Expect(decoder.encode(segmentD)).To(Equal(segmentF))
-	g.Expect(decoder.encode(segmentE)).To(Equal(segmentG))
-	g.Expect(decoder.encode(segmentF)).To(Equal(segmentB))
-	g.Expect(decoder.encode(segmentG)).To(Equal(segmentC))
+	g.Expect(decoder.encode(segA)).To(Equal(segD))
+	g.Expect(decoder.encode(segB)).To(Equal(segE))
+	g.Expect(decoder.encode(segC)).To(Equal(segA))
+	g.Expect(decoder.encode(segD)).To(Equal(segF))
+	g.Expect(decoder.encode(segE)).To(Equal(segG))
+	g.Expect(decoder.encode(segF)).To(Equal(segB))
+	g.Expect(decoder.encode(segG)).To(Equal(segC))
 
 	g.Expect(decoder.identifyNumber("acedgfb")).To(Equal(8))
 	g.Expect(decoder.identifyNumber("cdfbe")).To(Equal(5))

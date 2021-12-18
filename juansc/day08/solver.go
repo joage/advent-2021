@@ -1,7 +1,6 @@
 package day08
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 	"strings"
@@ -27,9 +26,17 @@ import (
 type Solution struct{}
 
 func (s Solution) Part1(lines []string) (string, error) {
-	fmt.Println("Just run ")
-	fmt.Println("cat day8.txt | cut -d '|' -f2  | splitlinesbydelim ' ' | rg -N '\\S' | awk '{ print length($0) }' | rg '2|4|3|7' | wc -l")
-	panic("did not implement")
+	total := 0
+	for _, line := range lines {
+		numbers := strings.Split(line, " | ")[1]
+		for _, num := range strings.Split(numbers, " ") {
+			switch len(strings.TrimSpace(num)) {
+			case 2, 3, 4, 7:
+				total += 1
+			}
+		}
+	}
+	return strconv.Itoa(total), nil
 }
 
 func (s Solution) Part2(lines []string) (string, error) {
@@ -39,7 +46,7 @@ func (s Solution) Part2(lines []string) (string, error) {
 		decoder, _ := newDecoder(parts[0])
 		currentNum := 0
 		for _, n := range strings.Split(parts[1], " ") {
-			currentNum = currentNum * 10 + decoder.identifyNumber(n)
+			currentNum = currentNum*10 + decoder.identifyNumber(n)
 		}
 		total += currentNum
 	}
@@ -49,13 +56,13 @@ func (s Solution) Part2(lines []string) (string, error) {
 type segment rune
 
 const (
-	segmentA segment = 'a'
-	segmentB segment = 'b'
-	segmentC segment = 'c'
-	segmentD segment = 'd'
-	segmentE segment = 'e'
-	segmentF segment = 'f'
-	segmentG segment = 'g'
+	segA segment = 'a'
+	segB segment = 'b'
+	segC segment = 'c'
+	segD segment = 'd'
+	segE segment = 'e'
+	segF segment = 'f'
+	segG segment = 'g'
 )
 
 type Decoder struct {
@@ -71,6 +78,14 @@ func (d Decoder) encode(s segment) segment {
 	return out
 }
 
+func (d Decoder) encodeString(segments ...segment) string {
+	out := ""
+	for _, c := range segments {
+		out += string(d.encode(c))
+	}
+	return out
+}
+
 func (d Decoder) identifyNumber(segments string) int {
 	decodedSegments := make([]rune, len(segments))
 	for i, seg := range segments {
@@ -80,7 +95,7 @@ func (d Decoder) identifyNumber(segments string) int {
 		return decodedSegments[i] < decodedSegments[j]
 	})
 	out := string(decodedSegments)
-	switch out  {
+	switch out {
 	case "abcefg":
 		return 0
 	case "cf":
@@ -141,56 +156,51 @@ func newDecoder(encoded string) (Decoder, error) {
 	}
 	// Identify segments with unique frequencies
 	for s, f := range segmentFrequencies {
-		if f == 6 {
+		switch f {
+		case 6:
 			// Segment B is the only one used 6 times
-			d.encoder[segmentB] = s
-		} else if f == 4 {
-			// Segment E is the only one used 6 times
-			d.encoder[segmentE] = s
-		} else if f == 9 {
-			d.encoder[segmentF] = s
+			d.encoder[segB] = s
+		case 4:
+			// Segment E is the only one used 4 times
+			d.encoder[segE] = s
+		case 9:
+			// Segment F is the only one used 9 times
+			d.encoder[segF] = s
 		}
 	}
 
-	cSegments := oneSegments.diff(newSet(string(d.encoder[segmentF]))).segments()
+	// The c Segment is the segment in the digit 1 that is not F
+	cSegments := oneSegments.diff(newSet(string(d.encoder[segF]))).segments()
 	if len(cSegments) != 1 {
 		panic("failure identifying c segment")
 	}
-	d.encoder[segmentC] = cSegments[0]
+	d.encoder[segC] = cSegments[0]
 
-
+	// The a segment is the segments in 7 - segments in 1
 	aSegments := sevenSegments.diff(oneSegments).segments()
 	if len(aSegments) != 1 {
 		panic("failure identifying a segment")
 	}
-	d.encoder[segmentA] = aSegments[0]
+	d.encoder[segA] = aSegments[0]
 
-	dSegments := fourSegments.diff(newSet(
-		string(d.encoder[segmentA]) +
-			string(d.encoder[segmentB]) +
-			string(d.encoder[segmentC]) +
-			string(d.encoder[segmentE]) +
-			string(d.encoder[segmentF]))).segments()
+	// The d segment is the difference between the digit 4 segments and abcef.
+	dSegments := fourSegments.diff(
+		newSet(d.encodeString(segA, segB, segC, segE, segF)),
+	).segments()
 	if len(dSegments) != 1 {
 		panic("error identifying the d segment")
 	}
-	d.encoder[segmentD] = dSegments[0]
+	d.encoder[segD] = dSegments[0]
 
+	// The g segment is the only one left
 	gSegments := eightSegments.diff(
-		newSet(
-			string(d.encoder[segmentA]) +
-				string(d.encoder[segmentB]) +
-				string(d.encoder[segmentC]) +
-				string(d.encoder[segmentD]) +
-				string(d.encoder[segmentE]) +
-				string(d.encoder[segmentF]),
-			),
+		newSet(d.encodeString(segA, segB, segC, segD, segE, segF)),
 	).segments()
 	if len(dSegments) != 1 {
 		panic("failure identifying g segment")
 	}
-	d.encoder[segmentG] = gSegments[0]
-	for k,v := range d.encoder {
+	d.encoder[segG] = gSegments[0]
+	for k, v := range d.encoder {
 		d.decoder[v] = k
 	}
 	return d, nil
