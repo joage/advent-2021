@@ -23,12 +23,12 @@ func TestPart1(t *testing.T) {
 		{
 			name:     "example",
 			input:    exampleLines,
-			expected: "26",
+			expected: "15",
 		},
 		{
 			name:     "actual test",
 			input:    lines,
-			expected: "519",
+			expected: "502",
 		},
 	}
 	for _, test := range tests {
@@ -62,12 +62,12 @@ func TestPart2(t *testing.T) {
 		{
 			name:     "example",
 			input:    exampleLines,
-			expected: "61229",
+			expected: "1134",
 		},
 		{
 			name:     "actual test",
 			input:    lines,
-			expected: "1027493",
+			expected: "1330560",
 		},
 	}
 	for _, test := range tests {
