@@ -7,13 +7,13 @@ import (
 )
 
 func TestDay1Part1(t *testing.T) {
-	lines, err := lib.ReadLines("./depths.in")
+	lines, err := lib.ReadLines("../inputs/day1.txt")
 	if err != nil {
 		t.Errorf("error reading file: %v", err)
 	}
-	tests := []struct{
-		name string
-		input []string
+	tests := []struct {
+		name     string
+		input    []string
 		expected string
 	}{
 		{
@@ -33,8 +33,8 @@ func TestDay1Part1(t *testing.T) {
 			expected: "7",
 		},
 		{
-			name: "actual test",
-			input: lines,
+			name:     "actual test",
+			input:    lines,
 			expected: "1482",
 		},
 	}
