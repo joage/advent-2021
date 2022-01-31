@@ -9,46 +9,55 @@ type Solution struct{}
 
 type tube struct {
 	depths    []int
+	height    int
 	width     int
 	lowPoints map[int]bool
 }
 
-func getNeighbors(width, index int) []int {
-	var neighbors []int
-	col := index % width
-	row := index / width
-	if row > 0 {
-		neighbors = append(neighbors, index-width)
+func newLavaTube(lines []string) tube {
+	t := tube{
+		width: len(lines[0]),
+		height: len(lines),
+		depths: make([]int, len(lines)*len(lines[0])),
+		lowPoints: map[int]bool{},
 	}
-	if row < width-1 { // actually the height
-		neighbors = append(neighbors, index+width)
+	i := 0
+	for _, line := range lines {
+		for _, unit := range line {
+			depth, _ := strconv.Atoi(string(unit))
+			t.depths[i] = depth
+			i++
+		}
+	}
+	return t
+}
+
+func (t tube) getNeighbors(index int) []int {
+	var neighbors []int
+	col := index % t.width
+	row := index / t.width
+	if row > 0 {
+		neighbors = append(neighbors, index-t.width)
+	}
+	if row < t.height-1 { // actually the height
+		neighbors = append(neighbors, index+t.width)
 	}
 	if col > 0 {
 		neighbors = append(neighbors, index-1)
 	}
-	if col < width-1 {
+	if col < t.width-1 {
 		neighbors = append(neighbors, index+1)
 	}
 	return neighbors
 }
 
-func newLavaTube(lines []string) tube {
-	t := tube{}
-	t.width = len(lines[0])
-	var depths []int
-	for _, line := range lines {
-		for _, unit := range line {
-			depth, _ := strconv.Atoi(string(unit))
-			depths = append(depths, depth)
-		}
-	}
-	t.depths = depths
-	t.lowPoints = map[int]bool{}
-	return t
-}
-
 func (t tube) isLow(index int) bool {
-	neighbors := getNeighbors(t.width, index)
+	// exit early if we have already determined this to not be a low point
+	if isLow, seen := t.lowPoints[index]; seen && !isLow {
+		return false
+	}
+
+	neighbors := t.getNeighbors(index)
 	for _, n := range neighbors {
 		if isNeighborLow, seen := t.lowPoints[n]; (seen && isNeighborLow) || (t.depths[n] <= t.depths[index]) {
 			t.lowPoints[index] = false
@@ -65,7 +74,7 @@ func (t tube) isLow(index int) bool {
 }
 
 func (t tube) getBasinSizeIncluding(lowPoint int, visited map[int]bool) int {
-	neighbors := getNeighbors(t.width, lowPoint)
+	neighbors := t.getNeighbors(lowPoint)
 
 	var upstream []int
 	for _, n := range neighbors {
